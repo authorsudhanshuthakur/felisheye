@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.exe
+cloudflared.exe
+.agents/
+.vscode/
+.idea/
+data/photos/*
+!data/photos/.gitkeep
+data/backups/*
+!data/backups/.gitkeep
