@@ -1,29 +1,21 @@
-FROM python:3.10-slim
+FROM animcogn/face_recognition:cpu
 
 ENV PYTHONUNBUFFERED=1 \
     PORT=10000 \
     HOST=0.0.0.0
 
-# Minimal runtime dependencies only (no compilers, no cmake)
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libglib2.0-0 \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN useradd -m -u 1000 user
 WORKDIR /app
 
-# Install prebuilt binary wheels (takes ~20 seconds instead of gigabytes of compilation)
+# Install lightweight web dependencies only (fastapi, uvicorn)
 COPY requirements.txt .
-RUN pip install --no-cache-dir -U pip setuptools wheel && \
+RUN pip install --no-cache-dir -U pip setuptools && \
     pip install --no-cache-dir -r requirements.txt
 
-# Copy application source code
-COPY --chown=user:user . /app
+# Copy application files
+COPY . /app
 
-RUN mkdir -p /app/data/photos /app/data/backups && \
-    chown -R user:user /app/data
-
-USER user
+# Ensure directories exist
+RUN mkdir -p /app/data/photos /app/data/backups
 
 EXPOSE 10000
 
