@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.exe
+cloudflared.exe
+.git
+.gitignore
+.agents
+.vscode
+.idea
+tests/
